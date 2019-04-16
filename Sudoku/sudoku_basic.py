@@ -1,5 +1,3 @@
-
-
 # -*- coding: utf-8 -*-'
 """Sudoku_Basic.ipynb
 
@@ -11,7 +9,7 @@ Original file is located at
 
 import csv, sys, time
 results=[]
-count=[]
+count=0
 
 class sudo:
   def readCSV(filename):
@@ -61,23 +59,23 @@ class sudo:
                           return True
           return False
   def solveSudoku(grid, i=0, j=0):
+          global count
           i,j = sudo.findNextCellToFill(grid, i, j)
           if i == -1:
                   return True
           for e in range(1,10):
                   if sudo.isValid(grid,i,j,e):
                           grid[i][j] = e
-                          count.append("bruh")
                           if sudo.solveSudoku(grid, i, j):
                                   return True
                           # Undo the current cell for backtracking
                           grid[i][j] = 0
                   else:
-                          count.append("bruh")
+                       count+=1 
           return False
 
   def heuristic():
-    return len(count)
+    return count
   
   def process(i=sys.argv[1], o=sys.argv[2]):
     count=0
@@ -87,7 +85,7 @@ class sudo:
     print(sudo.solveSudoku(results))
     #print(results)
     print( "solved in {} seconds".format( time.time() - start ) )
-    print("{} steps taken".format(sudo.heuristic()))
+    print("{} backtracks taken".format(sudo.heuristic()))
     sudo.writeCSV(o)
 
 if __name__ == '__main__':
